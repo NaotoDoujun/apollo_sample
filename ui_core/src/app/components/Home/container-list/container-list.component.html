@@ -1,0 +1,39 @@
+<button mat-raised-button color="primary" (click)="createContainer()">Create</button>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>Id</th>
+    <td mat-cell *matCellDef="let element">{{element.id}}</td>
+  </ng-container>
+  <ng-container matColumnDef="image">
+    <th mat-header-cell *matHeaderCellDef>Image</th>
+    <td mat-cell *matCellDef="let element">{{element.image}}</td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+  </ng-container>
+  <ng-container matColumnDef="state">
+    <th mat-header-cell *matHeaderCellDef>State</th>
+    <td mat-cell *matCellDef="let element">{{element.state}}</td>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let element">{{element.status}}</td>
+  </ng-container>
+  <ng-container matColumnDef="operation">
+    <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+    <td mat-cell *matCellDef="let element" align="right">
+      <button mat-icon-button color="primary" aria-label="start" (click)="startContainer(element)">
+        <mat-icon>play_circle</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" aria-label="stop" (click)="stopContainer(element)">
+        <mat-icon>stop_circle</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" aria-label="remove" (click)="removeContainer(element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

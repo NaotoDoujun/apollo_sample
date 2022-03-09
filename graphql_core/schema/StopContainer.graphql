@@ -1,0 +1,19 @@
+input ContainerInput {
+  id: String
+  image: String
+  name: String
+  state: String
+  status: String
+}
+
+type Container {
+  id: String
+  image: String
+  name: String
+  state: String
+  status: String
+}
+
+type Mutation {
+  stopContainer(container: ContainerInput): Container
+}

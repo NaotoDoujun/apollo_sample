@@ -1,0 +1,11 @@
+input ContainerInput {
+  id: String
+  image: String
+  name: String
+  state: String
+  status: String
+}
+
+type Mutation {
+  removeContainer(container: ContainerInput): String
+}

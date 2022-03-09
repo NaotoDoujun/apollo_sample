@@ -1,0 +1,35 @@
+version: '3'
+services:
+  graphqlcore:
+    environment:
+      TZ: Asia/Tokyo
+      NODE_ENV: production
+      VIRTUAL_HOST: graphqlcore.localhost
+    build:
+      context: ./graphql_core
+      dockerfile: ./Dockerfile
+    image: graphqlcore
+    container_name: graphqlcore
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock #linux, mac
+    privileged: true
+    ports:
+      - 4000:4000
+  uicore:
+    environment:
+      TZ: Asia/Tokyo
+      VIRTUAL_HOST: uicore.localhost
+    build:
+      context: ./ui_core
+      dockerfile: ./Dockerfile
+    image: uicore
+    container_name: uicore
+    ports:
+      - 4200:80
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: proxy
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro

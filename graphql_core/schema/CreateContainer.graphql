@@ -1,0 +1,19 @@
+input CreateContainerParamsInput {
+  imageName: String
+  tagName: String
+  containerName: String
+  hostPort: String
+  exposePort: String
+}
+
+type Container {
+  id: String
+  image: String
+  name: String
+  state: String
+  status: String
+}
+
+type Mutation {
+  createContainer(param: CreateContainerParamsInput): Container
+}

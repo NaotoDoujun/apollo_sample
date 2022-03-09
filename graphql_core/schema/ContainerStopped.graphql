@@ -1,0 +1,11 @@
+type Container {
+  id: String
+  image: String
+  name: String
+  state: String
+  status: String
+}
+
+type Subscription {
+  containerStopped: Container!
+}
