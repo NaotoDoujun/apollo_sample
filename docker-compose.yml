@@ -11,7 +11,8 @@ services:
     image: graphqlcore
     container_name: graphqlcore
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock #linux, mac
+     - /var/run/docker.sock:/var/run/docker.sock #linux, mac
+     # - //var/run/docker.sock:/var/run/docker.sock #windows
     privileged: true
   uicore:
     environment:
@@ -28,4 +29,5 @@ services:
     ports:
       - 80:80
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro #linux, mac
+      #- //var/run/docker.sock:/tmp/docker.sock:ro #windows
