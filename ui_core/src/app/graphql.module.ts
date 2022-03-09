@@ -5,8 +5,8 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { HttpLink } from 'apollo-angular/http';
 import { WebSocketLink } from "@apollo/client/link/ws";
 
-const uri = 'http://localhost:4000/graphql'; // <-- add the URL of the GraphQL server here
-const wsuri = 'ws://localhost:4000/graphql';
+const uri = 'http://graphqlcore.localhost/graphql'; // <-- add the URL of the GraphQL server here
+const wsuri = 'ws://graphqlcore.localhost/graphql';
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
 
   const http = httpLink.create({ uri });
