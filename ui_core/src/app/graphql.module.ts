@@ -3,19 +3,19 @@ import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { split, ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { HttpLink } from 'apollo-angular/http';
-import { WebSocketLink } from "@apollo/client/link/ws";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
 
 const uri = 'http://graphqlcore.localhost/graphql'; // <-- add the URL of the GraphQL server here
 const wsuri = 'ws://graphqlcore.localhost/graphql';
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
 
   const http = httpLink.create({ uri });
-  const ws = new WebSocketLink({
-    uri: wsuri,
-    options: {
-      reconnect: true,
-    },
-  });
+  const ws = new GraphQLWsLink(
+    createClient({
+      url: wsuri,
+    }),
+  );
 
   const link = split(
     // split based on operation type

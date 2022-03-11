@@ -2,9 +2,10 @@ import express from "express";
 import { createLogger, transports, format } from "winston";
 import { ApolloServer } from "apollo-server-express";
 import { createServer } from "http";
-import { execute, subscribe } from "graphql";
-import { SubscriptionServer } from "subscriptions-transport-ws";
+import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
 import { loadFiles } from "graphql-import-files";
 import resolvers from "./resolvers/ResolverMaster.js";
 
@@ -28,10 +29,13 @@ import resolvers from "./resolvers/ResolverMaster.js";
   const typeDefs = loadFiles("./schema/**/*.{graphql,gql}");
   const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-  const subscriptionServer = SubscriptionServer.create(
-    { schema, execute, subscribe },
-    { server: httpServer, path: '/graphql' }
-  );
+
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: '/graphql',
+  });
+
+  const serverCleanup = useServer({ schema }, wsServer);
 
   const loggingPlugin = {
     async requestDidStart(requestContext) {
@@ -51,15 +55,16 @@ import resolvers from "./resolvers/ResolverMaster.js";
     schema,
     plugins: [
       loggingPlugin,
+      ApolloServerPluginDrainHttpServer({ httpServer }),
       {
         async serverWillStart() {
           return {
             async drainServer() {
-              subscriptionServer.close();
-            }
+              await serverCleanup.dispose();
+            },
           };
-        }
-      }
+        },
+      },
     ],
   });
 
